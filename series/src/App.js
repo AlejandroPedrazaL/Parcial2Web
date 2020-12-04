@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+
 const canvas = d3.select("#canvas");
 
 const URL = getMessages();
@@ -36,32 +38,32 @@ let y = d3.scaleLinear()
     .range([iheight, 0]);
 
 async function getData() {
-    let peticion = d3.json(URL).then(data => { return data});
-    let datos = await peticion
-    console.log(datos)
-    let x = d3.scaleBand()
-        .domain(datos.map(d => d.name))
-        .range([0, iwidth])
-        .padding(0.1);
-    
-    const bars = g.selectAll("rect").data(datos);
-    bars.enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", d => x(d.name))
-        .attr("y", d => y(d.value))
-        .attr("height", d => iheight - y(d.value))
-        .attr("width", x.bandwidth())	
-        .style("fill", "steelblue");
-    
-    g.append("g")
-        .classed("x--axis", true)
-        .call(d3.axisBottom(x))
-        .attr("transform", `translate(0,${iheight})`)
-    
-    g.append("g")
-        .classed("y--axis", true)
-        .call(d3.axisBottom(x))
-        .call(d3.axisLeft(y))
-    }
-    
-    getData()
+  let peticion = d3.json(URL).then(data => { return data});
+  let datos = await peticion
+  console.log(datos)
+  let x = d3.scaleBand()
+      .domain(datos.map(d => d.name))
+      .range([0, iwidth])
+      .padding(0.1);
+  
+  const bars = g.selectAll("rect").data(datos);
+  bars.enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", d => x(d.name))
+      .attr("y", d => y(d.seasons))
+      .attr("height", d => iheight - y(d.seasons))
+      .attr("width", x.bandwidth())	
+      .style("fill", "steelblue");
+  
+  g.append("g")
+      .classed("x--axis", true)
+      .call(d3.axisBottom(x))
+      .attr("transform", `translate(0,${iheight})`)
+  
+  g.append("g")
+      .classed("y--axis", true)
+      .call(d3.axisBottom(x))
+      .call(d3.axisLeft(y))
+  }
+  
+getData()
